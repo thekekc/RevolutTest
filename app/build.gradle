@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    defaultConfig {
+        applicationId "com.vm.revoluttest"
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "http://fixer.io"
+            buildConfigField "Boolean", "ENABLE_HTTP_LOGGING", "false"
+        }
+        debug {
+            buildConfigField "String", "BASE_URL", "http://fixer.io"
+            buildConfigField "Boolean", "ENABLE_HTTP_LOGGING", "true"
+        }
+    }
+
+}
+
+buildscript {
+    apply from: '../dependencies/dependencies.gradle'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    apply from: '../dependencies/testing.gradle'
+    compile appcompat
+    compile rxjava
+    compile rxandroid
+    compile retrofit
+    compile gsonretrofit
+    compile recyclerView
+    compile appcompat
+    compile supporDesign
+    compile lombok
+    annotationProcessor lombok
+    compile gson
+    compile okHttpLoggingInterceptor
+    compile retrofitRx
+}
