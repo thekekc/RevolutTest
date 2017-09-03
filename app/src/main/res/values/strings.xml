@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RevolutTest</string>
+    <string name="you_have_0">You have 0.00</string>
 </resources>

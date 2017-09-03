@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '25.0.3'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -19,11 +19,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", "http://fixer.io"
+            buildConfigField "String", "BASE_URL", "\"http://api.fixer.io\""
             buildConfigField "Boolean", "ENABLE_HTTP_LOGGING", "false"
         }
         debug {
-            buildConfigField "String", "BASE_URL", "http://fixer.io"
+            buildConfigField "String", "BASE_URL", "\"http://api.fixer.io\""
             buildConfigField "Boolean", "ENABLE_HTTP_LOGGING", "true"
         }
     }
@@ -35,7 +35,7 @@ buildscript {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     apply from: '../dependencies/testing.gradle'
     compile appcompat
     compile rxjava
@@ -47,6 +47,8 @@ dependencies {
     compile supporDesign
     compile lombok
     annotationProcessor lombok
+    testAnnotationProcessor lombok
+    androidTestAnnotationProcessor lombok
     compile gson
     compile okHttpLoggingInterceptor
     compile retrofitRx

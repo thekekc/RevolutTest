@@ -13,6 +13,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.util.EnumMap;
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +31,7 @@ public class NetworkModule {
     }
 
     public Gson provideGson(CurrencyEnumMapDeserializer typeAdapter) {
-        Type mapType = new TypeToken<EnumMap<Currency, Double>>() {}.getType();
+        Type mapType = new TypeToken<EnumMap<Currency, BigDecimal>>() {}.getType();
         return new GsonBuilder()
                 .registerTypeAdapter(mapType, typeAdapter)
                 .create();
