@@ -1,11 +1,6 @@
 package com.vm.revoluttest.ui.utils;
 
 import android.content.Context;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -15,6 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.vm.revoluttest.R;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+import androidx.viewpager.widget.ViewPager;
 
 
 /**
@@ -112,7 +112,7 @@ public class DotsIndicator extends FrameLayout implements ViewPager.OnPageChange
     }
 
     public void attach(RecyclerView view) {
-        view.addOnScrollListener(new OnScrollListener() {
+        view.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);

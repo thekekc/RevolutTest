@@ -5,11 +5,13 @@ import android.annotation.SuppressLint;
 import com.vm.revoluttest.domain.model.Currency;
 import com.vm.revoluttest.domain.model.CurrencyRates;
 import com.vm.revoluttest.domain.network.CurrencyService;
-import io.reactivex.Observable;
-import io.reactivex.observers.TestObserver;
+
 import org.junit.Test;
 
 import java.util.Objects;
+
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
 
 public class CurrencyExchangeRepositoryTest {
 
@@ -20,11 +22,9 @@ public class CurrencyExchangeRepositoryTest {
                 new CurrencyExchangeRepositoryImpl(new CurrencyServiceStub());
         TestObserver<CurrencyRates> testObserver = new TestObserver<>();
         currencyExchangeRepositoryImpl.setRepeatPeriod(1000);
-        currencyExchangeRepositoryImpl.getAllRates().take(3).subscribe(testObserver);
-        //Thread.sleep(100000);
+        currencyExchangeRepositoryImpl.getRatesByBaseCurrency("USD").take(3).subscribe(testObserver);
         testObserver.await();
         testObserver.assertNoErrors();
-        testObserver.assertValueAt(1, currencyRates -> currencyRates.getBase()==Currency.USD);
         testObserver.assertValueCount(3);
     }
 
@@ -35,7 +35,7 @@ public class CurrencyExchangeRepositoryTest {
                 new CurrencyExchangeRepositoryImpl(new CurrencyServiceErrorStub());
         TestObserver<CurrencyRates> testObserver = new TestObserver<>();
         currencyExchangeRepositoryImpl.setRepeatPeriod(1000);
-        currencyExchangeRepositoryImpl.getAllRates().take(3).subscribe(testObserver);
+        currencyExchangeRepositoryImpl.getRatesByBaseCurrency("USD").take(3).subscribe(testObserver);
         testObserver.await();
         testObserver.assertError(Objects::nonNull);
     }
@@ -45,7 +45,6 @@ public class CurrencyExchangeRepositoryTest {
         @Override
         public Observable<CurrencyRates> getCurrencyList(String baseCurrency) {
             CurrencyRates currencyRates = new CurrencyRates();
-            currencyRates.setBase(Currency.USD);
             return Observable.just(currencyRates);
         }
     }
