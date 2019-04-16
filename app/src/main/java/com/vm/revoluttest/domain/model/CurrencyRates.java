@@ -1,15 +1,18 @@
 package com.vm.revoluttest.domain.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
+
 import java.math.BigDecimal;
-import java.util.EnumMap;
+import java.util.Map;
+
+import lombok.Data;
 
 @Data
 public class CurrencyRates {
-    private Currency base;
+    private String base;
     @SerializedName("date")
     private String date;
     @SerializedName("rates")
-    EnumMap<Currency, BigDecimal> rates;
+    Map<String, BigDecimal> rates;
+
 }

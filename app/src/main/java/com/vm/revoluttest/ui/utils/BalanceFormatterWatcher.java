@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 public class BalanceFormatterWatcher implements TextWatcher {
     private boolean selfChanged = false;
-    private String prefix = "";
+    private String prefix;
     private RelativeSizeSpan sixDigitSizeSpan = new RelativeSizeSpan(0.8f);
     private RelativeSizeSpan decimalSizeSpan = new RelativeSizeSpan(0.8f);
     private boolean initialZero = false;
@@ -55,6 +55,8 @@ public class BalanceFormatterWatcher implements TextWatcher {
             String digitString = format(str);
             if (str.isEmpty()) {
                 selfChanged = false;
+                s.append('0');
+                Selection.setSelection(s, 1);
                 return;
             }
             s.replace(0, s.length(), digitString);
@@ -76,7 +78,7 @@ public class BalanceFormatterWatcher implements TextWatcher {
                         s.length());
             }
         }
-        changeSpan(s);
+        //changeSpan(s);
         selfChanged = false;
     }
 

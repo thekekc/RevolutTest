@@ -19,6 +19,10 @@ public abstract class BaseInteractor {
     }
 
     public void onStop() {
+        disposeSubscriptions();
+    }
+
+    protected void disposeSubscriptions(){
         if (!subscriptions.isDisposed()) {
             subscriptions.dispose();
         }
