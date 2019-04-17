@@ -29,8 +29,7 @@ public class CurrencyListViewModel extends BaseObservable {
     public CurrencyListViewModel(CurrencyInteractor interactor, ResourceRepository resourceRepository) {
         this.interactor = interactor;
         this.resourceRepository = resourceRepository;
-        baseCurrencyViewModel = makeCurrencyViewModel("EUR", baseAmount,
-                new BigDecimal(1));
+        baseCurrencyViewModel = makeCurrencyViewModel("EUR", baseAmount, BigDecimal.ONE);
         baseCurrencyViewModel.isEditable.set(true);
         baseCurrencyViewModel.setAmountChangeListener(model -> {
                     baseAmount = new BigDecimal(model.amountString.get());
