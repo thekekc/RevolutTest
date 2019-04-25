@@ -6,6 +6,4 @@ import io.reactivex.Observable;
 
 public interface CurrencyExchangeRepository {
     Observable<CurrencyRates> getRatesByBaseCurrency(String baseCurrency);
-
-    void setRepeatPeriod(long repeatMs);
 }

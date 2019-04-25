@@ -41,7 +41,7 @@ public class BalanceFormatterWatcher implements TextWatcher {
         selfChanged = true;
         //removing every special symbols
         String str = s.toString().replaceAll("[,|.]", separator + "");
-        str = str.replaceAll("[^\\d" + separator +"]", "");
+        str = str.replaceAll("[^\\d" + separator + "]", "");
         //check if it contains only one point
         if (str.isEmpty()) {
             selfChanged = false;
@@ -54,7 +54,7 @@ public class BalanceFormatterWatcher implements TextWatcher {
             str = str.replace("0", "");
         }
 
-        if (str.matches("^[0-9]*"+separator+"?[0-9]*$")) {
+        if (str.matches("^[0-9]*" + separator + "?[0-9]*$")) {
             String digitString = format(str);
             if (str.isEmpty()) {
                 selfChanged = false;
@@ -104,9 +104,9 @@ public class BalanceFormatterWatcher implements TextWatcher {
         BigDecimal value;
         if (str.isEmpty()) {
             return "0";
-        } else if (str.length() == 1 && str.contains(separator +"")) {
+        } else if (str.length() == 1 && str.contains(separator + "")) {
             value = BigDecimal.valueOf(0.0d);
-        } else if (str.startsWith(separator +"")) {
+        } else if (str.startsWith(separator + "")) {
             return str;
         } else {
             try {
@@ -114,7 +114,7 @@ public class BalanceFormatterWatcher implements TextWatcher {
                         "[^\\d" + separator + "]",
                         "")
                         .replaceAll("\\" + separator + "", "."));
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 value = BigDecimal.ZERO;
             }
         }

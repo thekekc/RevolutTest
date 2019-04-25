@@ -53,7 +53,7 @@ public class CurrencyViewModel extends BaseObservable {
         void onClick(CurrencyViewModel model, int position);
     }
 
-    public interface AmountChangeListener{
+    public interface AmountChangeListener {
         void onAmountChanged(CurrencyViewModel model);
     }
 }

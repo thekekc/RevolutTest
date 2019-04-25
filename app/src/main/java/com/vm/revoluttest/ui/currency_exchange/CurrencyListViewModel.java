@@ -35,12 +35,12 @@ public class CurrencyListViewModel extends BaseObservable {
         baseCurrencyViewModel.isEditable.set(true);
         baseCurrencyViewModel.isEnabled.set(true);
         baseCurrencyViewModel.setAmountChangeListener(model -> {
-            String amountString = model.amountString.get() != null ? model.amountString.get() : "0.0";
-            //checked in amount string
-            //noinspection ConstantConditions
-            char separator =
-                    DecimalFormatSymbols.getInstance().getDecimalSeparator();
-            baseAmount = new BigDecimal(amountString
+                    String amountString = model.amountString.get() != null ? model.amountString.get() : "0.0";
+                    //checked in amount string
+                    //noinspection ConstantConditions
+                    char separator =
+                            DecimalFormatSymbols.getInstance().getDecimalSeparator();
+                    baseAmount = new BigDecimal(amountString
                             .replaceAll(
                                     "[^\\d" + separator + "]",
                                     "")

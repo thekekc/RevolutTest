@@ -6,6 +6,8 @@ import com.vm.revoluttest.ui.base.BaseInteractor;
 
 import org.reactivestreams.Subscriber;
 
+import java.util.concurrent.TimeUnit;
+
 @SuppressWarnings("WeakerAccess")
 public class CurrencyInteractorImpl extends BaseInteractor implements CurrencyInteractor {
     private CurrencyExchangeRepository repository;
@@ -14,7 +16,6 @@ public class CurrencyInteractorImpl extends BaseInteractor implements CurrencyIn
 
     public CurrencyInteractorImpl(CurrencyExchangeRepository repository) {
         this.repository = repository;
-        repository.setRepeatPeriod(delayMillis);
     }
 
 
@@ -24,15 +25,15 @@ public class CurrencyInteractorImpl extends BaseInteractor implements CurrencyIn
         onStart();
         this.callback = callback;
         subscribeAsync(repository
-                .getRatesByBaseCurrency(baseCurrency)
-                .doOnError(callback::onError)
-                .retry(),
+                        .getRatesByBaseCurrency(baseCurrency)
+                        .doOnError(callback::onError)
+                        .repeatWhen(f -> f.delay(delayMillis, TimeUnit.MILLISECONDS)),
                 callback::onNext, callback::onError);
     }
 
     @Override
-    public void changeBaseCurrency(String baseCurrency){
-        if(callback!=null){
+    public void changeBaseCurrency(String baseCurrency) {
+        if (callback != null) {
             getRatesPeriodically(callback, baseCurrency);
         }
     }

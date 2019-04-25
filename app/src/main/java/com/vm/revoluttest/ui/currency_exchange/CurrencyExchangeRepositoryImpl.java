@@ -12,9 +12,7 @@ import io.reactivex.Observable;
  */
 
 public class CurrencyExchangeRepositoryImpl implements CurrencyExchangeRepository {
-    private static final long REPEAT_PERIOD = 1000;
     private CurrencyService service;
-    private long repeatMs = REPEAT_PERIOD;
 
     public CurrencyExchangeRepositoryImpl(CurrencyService service) {
         this.service = service;
@@ -23,15 +21,7 @@ public class CurrencyExchangeRepositoryImpl implements CurrencyExchangeRepositor
 
     @Override
     public Observable<CurrencyRates> getRatesByBaseCurrency(String baseCurrency) {
-
-        return Observable
-                .interval(0, repeatMs, TimeUnit.MILLISECONDS)
-                .flatMap(n -> service.getCurrencyList(baseCurrency));
-    }
-
-    @Override
-    public void setRepeatPeriod(long repeatMs) {
-        this.repeatMs = repeatMs;
+        return service.getCurrencyList(baseCurrency);
     }
 
 }
