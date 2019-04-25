@@ -8,9 +8,10 @@ import androidx.annotation.Nullable;
 
 public class ViewModelHolder<VM> extends Fragment {
 
-    private VM mViewModel;
+    private VM viewModel;
 
-    public ViewModelHolder() { }
+    public ViewModelHolder() {
+    }
 
     public static <M> ViewModelHolder createContainer(@NonNull M viewModel) {
         ViewModelHolder<M> viewModelContainer = new ViewModelHolder<>();
@@ -24,11 +25,12 @@ public class ViewModelHolder<VM> extends Fragment {
         setRetainInstance(true);
     }
 
-    @Nullable public VM getViewmodel() {
-        return mViewModel;
+    @Nullable
+    public VM getViewmodel() {
+        return viewModel;
     }
 
     public void setViewModel(@NonNull VM viewModel) {
-        mViewModel = viewModel;
+        this.viewModel = viewModel;
     }
 }

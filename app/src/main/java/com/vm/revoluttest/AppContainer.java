@@ -1,12 +1,14 @@
 package com.vm.revoluttest;
 
 import android.app.Application;
+
 import com.vm.revoluttest.domain.network.NetworkModule;
 import com.vm.revoluttest.domain.network.ServiceModule;
 import com.vm.revoluttest.domain.resources.ResourceRepository;
 import com.vm.revoluttest.domain.resources.ResourceRepositoryImpl;
 import com.vm.revoluttest.ui.currency_exchange.CurrencyExchangeRepository;
 import com.vm.revoluttest.ui.currency_exchange.CurrencyExchangeRepositoryImpl;
+
 import retrofit2.Retrofit;
 
 public class AppContainer extends Application {
@@ -26,7 +28,7 @@ public class AppContainer extends Application {
         resourceRepository = new ResourceRepositoryImpl(this);
     }
 
-    public CurrencyExchangeRepository getCurrencyRepository(){
+    public CurrencyExchangeRepository getCurrencyRepository() {
         return currencyExchangeRepository;
     }
 

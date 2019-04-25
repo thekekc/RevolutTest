@@ -19,12 +19,13 @@ public class CurrencyEnumMapDeserializer implements JsonDeserializer<EnumMap<Cur
     @Override
     public EnumMap<Currency, BigDecimal> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        Type mapType = new TypeToken<Map<String, BigDecimal>>() {}.getType();
-        Map<String, BigDecimal> rates= context.deserialize(json,mapType);
+        Type mapType = new TypeToken<Map<String, BigDecimal>>() {
+        }.getType();
+        Map<String, BigDecimal> rates = context.deserialize(json, mapType);
         EnumMap<Currency, BigDecimal> convertedRates = new EnumMap<>(Currency.class);
         for (Currency currency : Currency.values()) {
             BigDecimal rate = rates.get(currency.getName());
-            if(rate!=null){
+            if (rate != null) {
                 convertedRates.put(currency, rate);
             }
         }

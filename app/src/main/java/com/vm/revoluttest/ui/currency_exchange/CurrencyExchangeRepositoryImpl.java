@@ -22,14 +22,15 @@ public class CurrencyExchangeRepositoryImpl implements CurrencyExchangeRepositor
 
 
     @Override
-    public Observable<CurrencyRates> getRatesByBaseCurrency(String baseCurrency){
+    public Observable<CurrencyRates> getRatesByBaseCurrency(String baseCurrency) {
 
-       return Observable.interval(0, repeatMs, TimeUnit.MILLISECONDS)
+        return Observable
+                .interval(0, repeatMs, TimeUnit.MILLISECONDS)
                 .flatMap(n -> service.getCurrencyList(baseCurrency));
     }
 
     @Override
-    public void setRepeatPeriod(long repeatMs){
+    public void setRepeatPeriod(long repeatMs) {
         this.repeatMs = repeatMs;
     }
 

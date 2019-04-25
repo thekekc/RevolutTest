@@ -4,6 +4,8 @@ import com.vm.revoluttest.domain.model.CurrencyRates;
 import com.vm.revoluttest.ui.base.BaseCallback;
 import com.vm.revoluttest.ui.base.BaseInteractor;
 
+import org.reactivestreams.Subscriber;
+
 @SuppressWarnings("WeakerAccess")
 public class CurrencyInteractorImpl extends BaseInteractor implements CurrencyInteractor {
     private CurrencyExchangeRepository repository;
@@ -24,7 +26,8 @@ public class CurrencyInteractorImpl extends BaseInteractor implements CurrencyIn
         subscribeAsync(repository
                 .getRatesByBaseCurrency(baseCurrency)
                 .doOnError(callback::onError)
-                .retry(), callback::onNext, callback::onError);
+                .retry(),
+                callback::onNext, callback::onError);
     }
 
     @Override

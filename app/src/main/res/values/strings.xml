@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">RevolutTest</string>
     <string name="reloading">Reloading rates…</string>
-    <string name="you_have_0">You have 0.00</string>
     <string name="input_tooltip">0.0</string>
 <!--currencies-->
     <string name="AED"> United Arab Emirates dirham</string>

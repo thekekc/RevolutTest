@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import com.vm.revoluttest.BuildConfig;
 import com.vm.revoluttest.domain.gson.CurrencyEnumMapDeserializer;
 import com.vm.revoluttest.domain.model.Currency;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -31,13 +32,14 @@ public class NetworkModule {
     }
 
     public Gson provideGson(CurrencyEnumMapDeserializer typeAdapter) {
-        Type mapType = new TypeToken<EnumMap<Currency, BigDecimal>>() {}.getType();
+        Type mapType = new TypeToken<EnumMap<Currency, BigDecimal>>() {
+        }.getType();
         return new GsonBuilder()
                 .registerTypeAdapter(mapType, typeAdapter)
                 .create();
     }
 
-    public CurrencyEnumMapDeserializer provideCurrencyEnumMapDeserializer(){
+    public CurrencyEnumMapDeserializer provideCurrencyEnumMapDeserializer() {
         return new CurrencyEnumMapDeserializer();
     }
 
@@ -47,7 +49,7 @@ public class NetworkModule {
         builder.connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS);
         builder.readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS);
         builder.writeTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS);
-        if(BuildConfig.ENABLE_HTTP_LOGGING){
+        if (BuildConfig.ENABLE_HTTP_LOGGING) {
             builder.addInterceptor(httpLoggingInterceptor);
         }
 

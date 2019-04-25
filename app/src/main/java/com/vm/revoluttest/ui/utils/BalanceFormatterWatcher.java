@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormatSymbols;
 
 
 public class BalanceFormatterWatcher implements TextWatcher {
@@ -17,6 +18,8 @@ public class BalanceFormatterWatcher implements TextWatcher {
     private boolean initialZero = false;
     private boolean prefixApplied = false;
     private boolean prefixWasApplied = false;
+    private char separator =
+            DecimalFormatSymbols.getInstance().getDecimalSeparator();
 
     public BalanceFormatterWatcher(String prefix) {
         this.prefix = prefix;
@@ -37,8 +40,8 @@ public class BalanceFormatterWatcher implements TextWatcher {
         //prevent from self update
         selfChanged = true;
         //removing every special symbols
-        String str = s.toString().replaceAll(",", ".");
-        str = str.replaceAll("[^\\d.]", "");
+        String str = s.toString().replaceAll("[,|.]", separator + "");
+        str = str.replaceAll("[^\\d" + separator +"]", "");
         //check if it contains only one point
         if (str.isEmpty()) {
             selfChanged = false;
@@ -51,7 +54,7 @@ public class BalanceFormatterWatcher implements TextWatcher {
             str = str.replace("0", "");
         }
 
-        if (str.matches("^[0-9]*\\.?[0-9]*$")) {
+        if (str.matches("^[0-9]*"+separator+"?[0-9]*$")) {
             String digitString = format(str);
             if (str.isEmpty()) {
                 selfChanged = false;
@@ -68,7 +71,7 @@ public class BalanceFormatterWatcher implements TextWatcher {
             }
         } else {
             StringBuilder b = new StringBuilder(str);
-            b.replace(str.lastIndexOf("."), str.lastIndexOf(".") + 1, "");
+            b.replace(str.lastIndexOf(separator), str.lastIndexOf(separator) + 1, "");
             str = b.toString();
             String digitString = format(str);
             s.replace(0, s.length(), digitString);
@@ -82,7 +85,7 @@ public class BalanceFormatterWatcher implements TextWatcher {
         selfChanged = false;
     }
 
-    private void changeSpan(Editable s){
+    private void changeSpan(Editable s) {
         s.removeSpan(sixDigitSizeSpan);
         if (s.length() > 6) {
             s.setSpan(sixDigitSizeSpan, 0, s.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -90,7 +93,7 @@ public class BalanceFormatterWatcher implements TextWatcher {
         s.removeSpan(decimalSizeSpan);
         String result = s.toString();
         if (result.contains(".")) {
-            int startPos = result.lastIndexOf(".");
+            int startPos = result.lastIndexOf(separator);
             s.setSpan(decimalSizeSpan, startPos, s.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         }
     }
@@ -101,22 +104,29 @@ public class BalanceFormatterWatcher implements TextWatcher {
         BigDecimal value;
         if (str.isEmpty()) {
             return "0";
-        } else if (str.length() == 1 && str.contains(".")) {
+        } else if (str.length() == 1 && str.contains(separator +"")) {
             value = BigDecimal.valueOf(0.0d);
-        } else if (str.startsWith(".")) {
+        } else if (str.startsWith(separator +"")) {
             return str;
         } else {
-            value = new BigDecimal(str);
+            try {
+                value = new BigDecimal(str.replaceAll(
+                        "[^\\d" + separator + "]",
+                        "")
+                        .replaceAll("\\" + separator + "", "."));
+            } catch (NumberFormatException e){
+                value = BigDecimal.ZERO;
+            }
         }
         String digitString = BalanceFormatter.formatBalance(value, "#.##");
-        if (str.charAt(str.length() - 1) == '.') {
-            return digitString + ".";
+        if (str.charAt(str.length() - 1) == separator) {
+            return digitString + separator;
         }
-        if (str.endsWith(".0")) {
-            return digitString + ".0";
+        if (str.endsWith(separator + "0")) {
+            return digitString + separator + "0";
         }
-        if (str.contains(".00")) {
-            return digitString + ".00";
+        if (str.contains(separator + "00")) {
+            return digitString + separator + "00";
         }
         if (value.compareTo(BigDecimal.ZERO) == 0) {
             return digitString;

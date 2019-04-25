@@ -13,6 +13,7 @@ public class CurrencyViewModel extends BaseObservable {
     public final ObservableField<String> amountString = new ObservableField<>();
     public final ObservableField<Integer> resourceId = new ObservableField<>();
     public final ObservableField<Boolean> isEditable = new ObservableField<>();
+    public final ObservableField<Boolean> isEnabled = new ObservableField<>();
     private BigDecimal rate;
     private CurrencyClickListener clickListener;
     private AmountChangeListener amountChangeListener;

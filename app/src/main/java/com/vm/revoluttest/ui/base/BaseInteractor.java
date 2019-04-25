@@ -1,5 +1,6 @@
 package com.vm.revoluttest.ui.base;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -33,6 +34,14 @@ public abstract class BaseInteractor {
                 observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber, error)
+        );
+    }
+
+    protected <T> void subscribeAsync(Flowable<T> observable, Consumer<T> subscriber, Consumer<Throwable> error) {
+        subscriptions.add(
+                observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread(), false, 1)
+                        .subscribe(subscriber, error)
         );
     }
 }

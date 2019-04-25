@@ -62,6 +62,7 @@
             android:longClickable="false"
             android:maxLines="1"
             android:paddingTop="0dp"
+            android:enabled="@{currency.isEnabled}"
             android:focusableInTouchMode="@{currency.isEditable}"
             android:textSize="16sp"
             android:autofillHints="no"

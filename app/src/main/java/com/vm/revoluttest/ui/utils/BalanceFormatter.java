@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 public class BalanceFormatter {
+
     public static String formatBalance4Decimals(BigDecimal balance) {
         balance = balance.setScale(4, BigDecimal.ROUND_HALF_UP);
         return format(balance, 4);
@@ -24,12 +25,16 @@ public class BalanceFormatter {
         return df.format(bd);
     }
 
-    public static String formatBalance(BigDecimal balance, String formatString){
-        if(balance==null) return "";
+    public static String formatBalance(BigDecimal balance, String formatString) {
+        if (balance == null) return "";
         DecimalFormat format = new DecimalFormat(formatString);
         DecimalFormatSymbols customSymbol = new DecimalFormatSymbols();
-        customSymbol.setDecimalSeparator('.');
-        customSymbol.setGroupingSeparator(' ');
+        char separator =
+                DecimalFormatSymbols.getInstance().getDecimalSeparator();
+        char groupSeparator =
+                DecimalFormatSymbols.getInstance().getGroupingSeparator();
+        customSymbol.setDecimalSeparator(separator);
+        customSymbol.setGroupingSeparator(groupSeparator);
         format.setRoundingMode(RoundingMode.FLOOR);
         format.setDecimalFormatSymbols(customSymbol);
         return format.format(balance);

@@ -40,7 +40,7 @@ public class CurrencyListAdapter extends RecyclerView.Adapter<CurrencyListAdapte
                 items.get(position).getClickListener().onClick(items.get(position), position);
             }
         });
-        if(position==0 && !holder.binding.amount.hasFocus()){
+        if (position == 0 && !holder.binding.amount.hasFocus()) {
             holder.binding.amount.requestFocus();
         }
     }
@@ -64,7 +64,7 @@ public class CurrencyListAdapter extends RecyclerView.Adapter<CurrencyListAdapte
                 KeyboardUtils.showKeyboard(binding.amount.getContext(), binding.amount);
             });
             binding.amount.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus ) {
+                if (hasFocus) {
                     binding.amount.setSelection(binding.amount.getText().length());
                 } else {
                     KeyboardUtils.hideKeyboard(binding.amount.getContext(), binding.amount);
@@ -84,8 +84,8 @@ public class CurrencyListAdapter extends RecyclerView.Adapter<CurrencyListAdapte
                 @Override
                 public void afterTextChanged(Editable s) {
                     int position = CurrencyHolder.this.getAdapterPosition();
-                    if(position==0 && items.get(position).getAmountChangeListener()!=null &&
-                            CurrencyHolder.this.binding.amount.hasFocus()){
+                    if (position == 0 && items.get(position).getAmountChangeListener() != null &&
+                            CurrencyHolder.this.binding.amount.hasFocus()) {
                         items.get(position).getAmountChangeListener()
                                 .onAmountChanged(items.get(position));
                     }
