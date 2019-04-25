@@ -94,6 +94,7 @@ public class CurrencyListViewModel extends BaseObservable {
                 showLoading.set(false);
                 currencyViewModelList.clear();
                 currencyViewModelList.add(baseCurrencyViewModel);
+                baseCurrencyViewModel.isEnabled.set(true);
                 currencyRates.getRates().forEach((currencyName, value) -> {
                     CurrencyViewModel c = makeCurrencyViewModel(currencyName,
                             value.multiply(baseAmount), value);
@@ -101,12 +102,8 @@ public class CurrencyListViewModel extends BaseObservable {
                     c.setClickListener((model, position) -> {
                         clickPosition = position;
                         showLoading.set(true);
-                        baseCurrencyViewModel.fullCurrencyName.set(model.fullCurrencyName.get());
-                        baseCurrencyViewModel.shortCurrencyName.set(model.shortCurrencyName.get());
-                        baseCurrencyViewModel.amountString.set(model.amountString.get());
-                        baseCurrencyViewModel.resourceId.set(model.resourceId.get());
-                        baseCurrencyViewModel.notifyChange();
-                        String baseAmountString = model.amountString.get();
+                        swapModels(baseCurrencyViewModel, model);
+                        String baseAmountString = baseCurrencyViewModel.amountString.get();
                         char separator =
                                 DecimalFormatSymbols.getInstance().getDecimalSeparator();
                         if (baseAmountString == null) {
@@ -124,7 +121,9 @@ public class CurrencyListViewModel extends BaseObservable {
                                 s.isEnabled.set(false);
                             }
                         });
-                        interactor.changeBaseCurrency(model.shortCurrencyName.get());
+                        baseCurrencyViewModel.isEnabled.set(false);
+                        baseCurrencyViewModel.notifyChange();
+                        interactor.changeBaseCurrency(baseCurrencyViewModel.shortCurrencyName.get());
 
                     });
                     c.isEditable.set(false);
@@ -150,6 +149,26 @@ public class CurrencyListViewModel extends BaseObservable {
 
     void onStop() {
         ((BaseInteractor) interactor).onStop();
+    }
+
+    private void swapModels(CurrencyViewModel source, CurrencyViewModel target){
+        CurrencyViewModel temp = new CurrencyViewModel();
+
+        temp.fullCurrencyName.set(target.fullCurrencyName.get());
+        temp.shortCurrencyName.set(target.shortCurrencyName.get());
+        temp.amountString.set(target.amountString.get());
+        temp.resourceId.set(target.resourceId.get());
+
+
+        target.fullCurrencyName.set(source.fullCurrencyName.get());
+        target.shortCurrencyName.set(source.shortCurrencyName.get());
+        target.amountString.set(source.amountString.get());
+        target.resourceId.set(source.resourceId.get());
+
+        source.fullCurrencyName.set(temp.fullCurrencyName.get());
+        source.shortCurrencyName.set(temp.shortCurrencyName.get());
+        source.amountString.set(temp.amountString.get());
+        source.resourceId.set(temp.resourceId.get());
     }
 
 

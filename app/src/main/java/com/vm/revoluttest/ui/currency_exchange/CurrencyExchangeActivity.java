@@ -69,8 +69,8 @@ public class CurrencyExchangeActivity extends Activity {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 adapter.notifyItemMoved(viewModel.getClickPosition(), 0);
-                adapter.notifyItemChanged(0);
                 binding.currencyList.scrollToPosition(0);
+                adapter.notifyItemRangeChanged(0, viewModel.getClickPosition() + 1);
             }
         };
         viewModel.baseCurrencyViewModel.addOnPropertyChangedCallback(baseCurrencyChangeCallback);
